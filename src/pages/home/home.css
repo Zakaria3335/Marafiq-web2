@@ -207,10 +207,11 @@
   max-width: calc(100% - 110px);
 }
 
-/* أيقونة نقطة الماء بأسفل يمين الكرت الفاتح */
+/* أيقونة نقطة الماء بأسفل يمين الكرت الفاتح — inset-inline-end بيخليها
+   تنقلب عالجهة التانية أوتوماتيك بوضع RTL (عربي) بدل ما تصطدم بالنص */
 .about-card-icon {
   position: absolute;
-  right: 20px;
+  inset-inline-end: 20px;
   bottom: 14px;
   width: 110px;
   height: 110px;
