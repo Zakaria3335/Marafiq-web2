@@ -1,0 +1,843 @@
+/* متغيرات الألوان المستخدمة بكروت وحالات لوحة التحكم */
+.page-canvas {
+  --dash-blue: #2f8fd6;
+  --dash-orange: #f5a623;
+  --dash-teal: #0aa6a6;
+  --dash-red: #e0433a;
+  --dash-green: #1aa971;
+}
+
+/* شريط الـ breadcrumb (Home > My Dashboard) */
+.breadcrumb-bar {
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #073c81 2.4%,
+    #92b5b8 46.99%,
+    #073c81 100%
+  );
+}
+
+.breadcrumb-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: #ffffff;
+}
+
+.breadcrumb-link {
+  color: #ffffff;
+  text-decoration: none;
+  opacity: 0.75;
+  font-size: 15px;
+  transition: opacity 0.15s ease;
+}
+
+.breadcrumb-link:hover {
+  opacity: 1;
+}
+
+.breadcrumb-inner svg {
+  opacity: 0.75;
+}
+
+.breadcrumb-current {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* عنوان الصفحة */
+.dash-hero {
+  background: #ffffff;
+  padding: clamp(28px, 4vw, 40px) 0 clamp(16px, 2.5vw, 24px);
+}
+
+.dash-title {
+  margin: 0;
+  color: #008c98;
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+}
+
+.dash-subtitle {
+  margin: 6px 0 0;
+  color: #0076bf;
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 500;
+}
+
+.dash-desc {
+  margin: 10px 0 0;
+  max-width: 720px;
+  color: #4a4a4a;
+  font-size: clamp(13px, 1.3vw, 15px);
+  line-height: 1.55;
+}
+
+.dash-body {
+  background: #f7f9fb;
+  padding: clamp(20px, 3vw, 32px) 0 clamp(56px, 8vw, 88px);
+}
+
+.dash-section-title {
+  margin: 0;
+  color: #008c98;
+  font-size: clamp(17px, 1.8vw, 20px);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* صف "TOTAL BILLS OVERVIEW": تسمية على اليسار + كروت الإحصائيات */
+.dash-stats-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 32px);
+  margin: 4px 0 clamp(20px, 2.4vw, 28px);
+}
+
+.dash-stats-caption {
+  flex-shrink: 0;
+  width: clamp(120px, 12vw, 160px);
+  margin: 0;
+  color: #0a3854;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.dash-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 22px);
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-stat-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  border-radius: 16px;
+  padding: 18px 22px;
+}
+
+.dash-tone-blue.dash-stat-card {
+  background: rgba(47, 143, 214, 0.08);
+}
+
+.dash-tone-green.dash-stat-card {
+  background: rgba(26, 169, 113, 0.07);
+}
+
+.dash-tone-orange.dash-stat-card {
+  background: rgba(245, 166, 35, 0.12);
+}
+
+.dash-tone-red.dash-stat-card {
+  background: rgba(224, 67, 58, 0.08);
+}
+
+.dash-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+}
+
+.dash-stat-icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.dash-stat-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dash-stat-value {
+  color: #0a3854;
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 800;
+}
+
+.dash-stat-label {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* التخطيط: عمود رئيسي + عمود جانبي */
+.dash-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: clamp(16px, 2vw, 24px);
+  align-items: start;
+}
+
+.dash-col-main,
+.dash-col-side {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 24px);
+  min-width: 0;
+}
+
+/* كرت عام (يستخدم لكل الأقسام: Consumption / Requests / Bill List / ...) */
+.dash-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: clamp(18px, 2.2vw, 26px);
+  box-shadow: 0 2px 12px rgba(10, 56, 84, 0.06);
+}
+
+.dash-card h3 {
+  margin: 0 0 4px;
+  color: #008c98;
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.dash-card-desc {
+  margin: 6px 0 18px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 520px;
+}
+
+.dash-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.dash-period-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #e5e4e7;
+  border-radius: 999px;
+  padding: 6px 14px;
+  background: #ffffff;
+  color: #4a5568;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.dash-select-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 16px;
+  background: var(--dash-orange);
+  color: #ffffff;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.dash-select-pill select {
+  appearance: none;
+  border: none;
+  background: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #ffffff;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.dash-select-pill select:focus {
+  outline: none;
+}
+
+.dash-select-pill select option {
+  color: #33475a;
+}
+
+.dash-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Consumption Overview */
+.dash-consumption-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: clamp(16px, 2vw, 28px);
+  align-items: stretch;
+}
+
+.dash-consumption-value {
+  margin: 4px 0 0;
+  color: #0a3854;
+  font-size: clamp(22px, 2.2vw, 26px);
+  font-weight: 800;
+}
+
+.dash-consumption-value span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.dash-consumption-label {
+  margin: 2px 0 0;
+  color: #6b7280;
+  font-size: 12.5px;
+}
+
+.dash-consumption-delta {
+  margin: 4px 0 0;
+  color: var(--dash-green);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.dash-chart-area {
+  margin-top: 14px;
+}
+
+.dash-meter-boxes {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.dash-meter-box {
+  background: #ebf6f7;
+  border: 1px solid #eceef1;
+  border-radius: 12px;
+  padding: 10px 10px;
+}
+
+.dash-meter-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.dash-meter-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-meter-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.dash-meter-icon-navy {
+  color: #0a3854;
+}
+
+.dash-meter-icon-green {
+  color: var(--dash-green);
+}
+
+.dash-meter-title {
+  margin: 0;
+  color: #6b7280;
+  font-size: 11.5px;
+  line-height: 1.2;
+}
+
+.dash-meter-value {
+  margin: 1px 0 0;
+  color: #0a3854;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.dash-meter-meta {
+  margin: 1px 0 0;
+  color: #9aa1ab;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.dash-meter-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 2px;
+  background: rgba(26, 169, 113, 0.12);
+  color: var(--dash-green);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.dash-outline-btn {
+  display: inline-block;
+  text-align: center;
+  background: #ffffff;
+  color: var(--orange, #f5a623);
+  border: 1px solid var(--orange, #f5a623);
+  border-radius: 999px;
+  padding: 5px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.dash-outline-btn:hover {
+  background: var(--orange, #f5a623);
+  color: #ffffff;
+}
+
+/* Your Requests Summary (donut) */
+.dash-requests-card {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 40px);
+  flex-wrap: wrap;
+  background: linear-gradient(180deg, #eaf5fc 0%, #f3faff 100%);
+}
+
+.dash-requests-text {
+  flex: 1;
+  min-width: 220px;
+}
+
+.dash-donut-ring {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 168px;
+  height: 168px;
+}
+
+.dash-donut-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dash-donut-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dash-donut-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #33475a;
+  font-size: 13px;
+}
+
+.dash-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dash-legend-dot.dash-tone-blue {
+  background: var(--dash-blue);
+}
+
+.dash-legend-dot.dash-tone-orange {
+  background: var(--dash-orange);
+}
+
+.dash-legend-dot.dash-tone-teal {
+  background: var(--dash-teal);
+}
+
+/* جداول (Bill List / My Requests) */
+.dash-table-scroll {
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd2d9 #f1f3f5;
+}
+
+.dash-table-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.dash-table-scroll::-webkit-scrollbar-track {
+  background: #f1f3f5;
+  border-radius: 999px;
+}
+
+.dash-table-scroll::-webkit-scrollbar-thumb {
+  background: #cbd2d9;
+  border-radius: 999px;
+}
+
+.dash-table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #a9b1bb;
+}
+
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+}
+
+.dash-table th {
+  text-align: left;
+  color: #0a3854;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eceef1;
+  white-space: nowrap;
+}
+
+.dash-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f3f5;
+  color: #33475a;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.dash-table-link {
+  color: var(--orange, #f5a623);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dash-status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.dash-status-red {
+  background: rgba(224, 67, 58, 0.12);
+  color: var(--dash-red);
+}
+
+.dash-status-orange {
+  background: rgba(245, 166, 35, 0.14);
+  color: var(--dash-orange);
+}
+
+.dash-status-green {
+  background: rgba(26, 169, 113, 0.12);
+  color: var(--dash-green);
+}
+
+.dash-pay-now-btn {
+  margin-left: 8px;
+  background: var(--orange, #f5a623);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dash-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #eceef1;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+/* تابات My Requests */
+.dash-tabs {
+  display: flex;
+  gap: clamp(16px, 2vw, 28px);
+  border-bottom: 1px solid #eceef1;
+  margin: 14px 0 16px;
+  overflow-x: auto;
+}
+
+.dash-tab {
+  border: none;
+  background: none;
+  padding: 0 0 10px;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.dash-tab.active {
+  color: var(--orange, #f5a623);
+  border-bottom-color: var(--orange, #f5a623);
+}
+
+/* Quick Actions */
+.dash-quick-card {
+  background: #faf7f1;
+}
+
+.dash-actions-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dash-action-item {
+  display: flex;
+  gap: 14px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 2px 10px rgba(10, 56, 84, 0.05);
+}
+
+.dash-action-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+
+.dash-action-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.dash-action-icon.dash-tone-red {
+  background: rgba(224, 67, 58, 0.12);
+  color: var(--dash-red);
+}
+
+.dash-action-icon.dash-tone-orange {
+  background: rgba(245, 166, 35, 0.14);
+  color: var(--dash-orange);
+}
+
+.dash-action-icon.dash-tone-green {
+  background: rgba(26, 169, 113, 0.12);
+  color: var(--dash-green);
+}
+
+.dash-action-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-action-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #a3a8b0;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+}
+
+.dash-action-title {
+  margin: 5px 0 3px;
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+.dash-text-red {
+  color: var(--dash-red);
+}
+
+.dash-text-orange {
+  color: var(--dash-orange);
+}
+
+.dash-text-green {
+  color: var(--dash-green);
+}
+
+.dash-action-desc {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Bill Overview */
+.dash-bill-overview {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #eaf7f7 0%, #f2fbfb 100%);
+}
+
+.dash-bill-account {
+  margin: 4px 0 14px;
+  color: #6b7280;
+  font-size: 12.5px;
+}
+
+.dash-bill-label {
+  margin: 0;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.dash-bill-amount {
+  margin: 2px 0 0;
+  color: var(--dash-orange);
+  font-size: clamp(24px, 2.4vw, 28px);
+  font-weight: 800;
+}
+
+.dash-bill-amount span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dash-bill-due {
+  margin: 4px 0 0;
+  color: var(--dash-red);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dash-bill-date {
+  margin: 2px 0 0;
+  color: #9aa1ab;
+  font-size: 11.5px;
+}
+
+.dash-bill-doc {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 40px;
+  height: auto;
+  opacity: 0.9;
+}
+
+/* Recent Submitted Services */
+.dash-recent-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dash-recent-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #0a3854;
+}
+
+.dash-recent-title {
+  margin: 0 0 2px;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.dash-recent-desc {
+  margin: 0;
+  font-size: 11.5px;
+  color: rgba(10, 56, 84, 0.7);
+  max-width: 220px;
+}
+
+.dash-recent-peach {
+  background: #fff9f1;
+  color: #083a81;
+}
+
+.dash-recent-peach .dash-recent-desc {
+  color: #4a4a4a;
+}
+
+.dash-recent-blue {
+  background: #9fdaff;
+  color: #083a81;
+}
+
+.dash-recent-blue .dash-recent-desc {
+  color: #4a4a4a;
+}
+
+.dash-recent-mint {
+  background: #c9e7e9;
+  color: #083a81;
+}
+
+.dash-recent-mint .dash-recent-desc {
+  color: #4a4a4a;
+}
+
+/* تعديلات الشاشات المتوسطة والصغيرة */
+@media (max-width: 1100px) {
+  .dash-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-consumption-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-meter-boxes {
+    flex-direction: row;
+  }
+
+  .dash-meter-box {
+    flex: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .dash-stats-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dash-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .dash-meter-boxes {
+    flex-direction: column;
+  }
+}

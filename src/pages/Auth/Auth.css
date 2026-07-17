@@ -1,0 +1,438 @@
+/* الصفحة كاملة: صورة الخلفية تغطي الشاشة بأكملها */
+.auth-page {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: clamp(24px, 4vw, 64px);
+  padding-top: clamp(40px, 8vh, 100px);
+  background: #0a2f45 url("/public/services/Image\ .png") center / cover
+    no-repeat fixed;
+  overflow-x: hidden;
+}
+
+.auth-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    178deg,
+    rgba(2, 12, 27, 0.15) 6%,
+    rgba(2, 12, 27, 0.25) 40%,
+    rgba(0, 34, 82, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+.auth-visual-logo {
+  position: fixed;
+  top: clamp(24px, 4vw, 48px);
+  left: clamp(24px, 4vw, 48px);
+  z-index: 1;
+  height: clamp(28px, 2.4vw, 38px);
+  width: auto;
+}
+
+.auth-visual-text {
+  position: fixed;
+  left: clamp(24px, 4vw, 48px);
+  bottom: clamp(64px, 9vw, 96px);
+  z-index: 1;
+  max-width: 460px;
+  color: #ffffff;
+}
+
+.auth-visual-text h2 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 800;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.auth-visual-text p {
+  margin: 0;
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.auth-visual-dots {
+  position: fixed;
+  left: clamp(24px, 4vw, 48px);
+  bottom: clamp(24px, 4vw, 48px);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(245, 166, 35, 0.6);
+  transition: all 0.2s ease;
+}
+
+.auth-dot-active {
+  width: 28px;
+  background: var(--orange, #f5a623);
+}
+
+/* الكرت العائم: تسجيل الدخول / إنشاء حساب */
+.auth-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 460px;
+}
+
+.auth-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: clamp(20px, 2.4vw, 30px);
+  box-sizing: border-box;
+  box-shadow: 0px 1px 20px #c9e7e9;
+}
+
+.auth-card-logo {
+  height: clamp(40px, 3.4vw, 52px);
+  width: auto;
+  margin-bottom: clamp(14px, 2vw, 20px);
+}
+
+.auth-title {
+  margin: 0;
+  color: #008c98;
+  font-size: clamp(18px, 1.7vw, 22px);
+  font-weight: 800;
+}
+
+.auth-title + .auth-form {
+  margin-top: clamp(14px, 1.8vw, 20px);
+}
+
+.auth-subtitle {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.auth-section-title {
+  margin: clamp(14px, 1.8vw, 20px) 0 12px;
+  color: #008c98;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e5e4e7;
+  border-radius: 999px;
+  padding: 11px 20px;
+  color: var(--orange, #f5a623);
+}
+
+.auth-input-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.auth-input-error {
+  border-color: #e0433a;
+}
+
+.auth-field-error {
+  margin: 6px 2px 0;
+  color: #e0433a;
+  font-size: 12px;
+}
+
+.auth-input input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 14px;
+  color: #08060d;
+  font-family: inherit;
+}
+
+.auth-input input::placeholder {
+  color: #a3a8b0;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  background: var(--orange, #f5a623);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 11px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+  margin-top: 4px;
+}
+
+.auth-submit-btn:hover {
+  filter: brightness(0.95);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+  color: #7a7f87;
+  font-size: 13px;
+}
+
+.auth-divider span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 118, 191, 0.05),
+    rgba(0, 118, 191, 0.4)
+  );
+}
+
+.auth-divider span:last-child {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 118, 191, 0.4),
+    rgba(0, 118, 191, 0.05)
+  );
+}
+
+.auth-secondary-btn {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  background: #ffffff;
+  color: var(--orange, #f5a623);
+  border: 1px solid var(--orange, #f5a623);
+  border-radius: 999px;
+  padding: 11px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.auth-secondary-btn:hover {
+  background: var(--orange, #f5a623);
+  color: #ffffff;
+}
+
+.auth-switch-link {
+  align-self: flex-end;
+  color: var(--orange, #f5a623);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* نافذة التحقق من رمز الدخول (OTP) */
+.auth-otp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 25, 41, 0.55);
+  padding: 16px;
+}
+
+.auth-otp-modal {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: clamp(24px, 3vw, 32px) clamp(20px, 3vw, 28px);
+  box-sizing: border-box;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.auth-otp-icon {
+  width: clamp(72px, 8vw, 96px);
+  height: auto;
+}
+
+.auth-success-icon {
+  width: clamp(44px, 4.5vw, 52px);
+  height: auto;
+  margin-bottom: 4px;
+}
+
+.auth-success-title {
+  margin: 8px 0 0;
+  color: #008c98;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.auth-otp-modal .auth-submit-btn {
+  margin-top: 16px;
+}
+
+.auth-otp-close {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  border: none;
+  background: none;
+  color: var(--orange, #f5a623);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.auth-otp-text {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.auth-otp-highlight {
+  color: #0aa6a6;
+  font-weight: 600;
+}
+
+.auth-otp-number {
+  margin: 4px 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0aa6a6;
+}
+
+.auth-otp-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.auth-otp-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-otp-input {
+  width: 40px;
+  height: 44px;
+  border: 1px solid #e5e4e7;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #08060d;
+  outline: none;
+}
+
+.auth-otp-input:focus {
+  border-color: var(--orange, #f5a623);
+}
+
+/* اختيار نوع الحساب (Personal / Company) جوا فورم التسجيل */
+.auth-account-type-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.auth-account-type-btn {
+  border: 1px solid #e5e4e7;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #6b7280;
+  padding: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.auth-account-type-btn.active {
+  border-color: var(--orange, #f5a623);
+  background: var(--orange, #f5a623);
+  color: #ffffff;
+}
+
+/* قائمة منسدلة بنفس شكل حقول الإدخال (Al-Wilaya) */
+.auth-select {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 14px;
+  color: #08060d;
+  font-family: inherit;
+}
+
+.auth-select:invalid {
+  color: #a3a8b0;
+}
+
+/* تعديلات الشاشات الصغيرة */
+@media (max-width: 900px) {
+  .auth-page {
+    align-items: flex-end;
+    justify-content: center;
+    padding: clamp(16px, 5vw, 32px);
+  }
+
+  .auth-visual-text {
+    display: none;
+  }
+
+  .auth-visual-dots {
+    display: none;
+  }
+
+  .auth-panel {
+    max-width: 440px;
+  }
+}

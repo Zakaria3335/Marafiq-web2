@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sleep 3; cat /tmp/vite10.log)",
+      "Read(//tmp/**)"
+    ]
+  }
+}

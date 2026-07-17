@@ -1,0 +1,249 @@
+.page-canvas {
+  width: 100%;
+}
+
+/* شريط الـ breadcrumb تحت النافبار مباشرة (Home > Services) */
+.breadcrumb-bar {
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #073c81 2.4%,
+    #92b5b8 46.99%,
+    #073c81 100%
+  );
+}
+
+.breadcrumb-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: #ffffff;
+}
+
+.breadcrumb-link {
+  color: #ffffff;
+  text-decoration: none;
+  opacity: 0.75;
+  font-size: 15px;
+  transition: opacity 0.15s ease;
+}
+
+.breadcrumb-link:hover {
+  opacity: 1;
+}
+
+/* لما يكون عنصر breadcrumb زر (Services بعد فتح خدمة) بدل رابط */
+button.breadcrumb-link {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.breadcrumb-inner svg {
+  opacity: 0.75;
+}
+
+.breadcrumb-current {
+  font-size: 15px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* عنوان الصفحة + رابط "All Services" + البحث */
+.services-hero {
+  background: #ffffff;
+  padding: clamp(28px, 4vw, 40px) 0 clamp(24px, 3.5vw, 32px);
+}
+
+.services-back-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--orange, #f5a623);
+  text-decoration: none;
+}
+
+.services-back-link h1 {
+  margin: 0;
+  color: #008c98;
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+}
+
+.services-hero-subtitle {
+  display: block;
+  margin: 4px 0 0;
+  color: #0076bf;
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.services-hero-subtitle:hover {
+  text-decoration: underline;
+}
+
+/* شريط البحث */
+.services-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 420px;
+  margin-top: clamp(16px, 2.5vw, 22px);
+  padding: 12px 18px;
+  background: #f2f8f9;
+  border-radius: 999px;
+  color: #7a7f87;
+}
+
+.services-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  color: #08060d;
+  font-family: inherit;
+}
+
+.services-search input::placeholder {
+  color: #a3a8b0;
+}
+
+/* شبكة الخدمات */
+.services-grid-section {
+  background: #ffffff;
+  padding: clamp(16px, 3vw, 24px) 0 clamp(56px, 9vw, 96px);
+}
+
+.services-empty {
+  margin: 40px 0;
+  color: #7a7f87;
+  font-size: 15px;
+  text-align: center;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 270px));
+  gap: clamp(12px, 1.6vw, 20px);
+  justify-content: center;
+}
+
+/* كرت الخدمة الواحد */
+.services-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 268 / 330;
+  border-radius: 14px;
+  overflow: hidden;
+  color: #ffffff;
+  background-size: cover;
+  background-position: center;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.services-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 34px rgba(0, 34, 82, 0.22);
+}
+
+.services-card-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  background: linear-gradient(
+    178.39deg,
+    rgba(52, 53, 35, 0) 6.05%,
+    rgba(2, 12, 27, 0.405) 30.32%,
+    rgba(0, 34, 82, 0.9) 95.44%
+  );
+  -webkit-backdrop-filter: blur(2.5px);
+  backdrop-filter: blur(2.5px);
+  text-align: left;
+}
+
+.services-card-overlay h3 {
+  flex-shrink: 0;
+  width: 100%;
+  min-height: 42px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 15px;
+}
+
+.services-card-overlay p {
+  flex-shrink: 0;
+  width: 100%;
+  min-height: 48px;
+  font-size: 9px;
+  line-height: 11px;
+  color: #ffffff;
+  margin-bottom: 25px;
+}
+
+/* زر "Apply Now" (نفس شكل زر كرت الخدمات بالهوم) */
+.apply-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: auto;
+  background: var(--orange, #f5a623);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  height: 35px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.apply-btn:hover {
+  filter: brightness(0.95);
+}
+
+/* تعديلات الشاشات الصغيرة */
+@media (max-width: 1100px) {
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 270px));
+  }
+}
+
+@media (max-width: 800px) {
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 270px));
+  }
+}
+
+@media (max-width: 480px) {
+  .services-grid {
+    grid-template-columns: minmax(0, 300px);
+    justify-content: center;
+  }
+
+  .services-search {
+    max-width: 100%;
+  }
+}

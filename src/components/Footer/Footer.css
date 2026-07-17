@@ -1,0 +1,255 @@
+/* الفقرة 1: الشكل الأساسي للفوتر (الخلفية المتدرجة) */
+.site-footer {
+  --teal: #0aa6a6;
+  --orange: #f5a623;
+
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: linear-gradient(90deg, #083a81 0%, #00788b 100%);
+  color: #ffffff;
+}
+
+.footer-decor {
+  position: absolute;
+  right: 0;
+  top: 30%;
+  height: 60%;
+  width: auto;
+  max-width: 25%;
+  object-fit: cover;
+  opacity: 0.99;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.footer-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: clamp(18px, 2.2vw, 28px) clamp(20px, 4vw, 60px);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.3fr;
+  gap: clamp(24px, 4vw, 60px);
+  align-items: start;
+}
+
+/* بالصفحات التانية (مش الهوم): نفس عرض/padding حاوية الصفحة (.container)
+   مشان اللوجو وأعمدة الفوتر تحاذي محتوى الصفحة فوقها */
+.footer-inner-narrow {
+  max-width: min(1360px, 96vw);
+  padding-left: clamp(24px, 5vw, 56px);
+  padding-right: clamp(24px, 5vw, 56px);
+}
+
+/* الفقرة 2: عمود اللوجو + السوشال ميديا */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(12px, 1.6vw, 18px);
+}
+
+.footer-logo {
+  display: inline-flex;
+}
+
+.footer-logo-img {
+  height: clamp(56px, 6vw, 84px);
+  width: auto;
+  display: block;
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.footer-social-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+}
+
+.footer-social-btn img {
+  width: 60px;
+  height: 60px;
+}
+
+/* الفقرة 3: أعمدة الروابط (القائمة + التواصل) */
+.footer-heading {
+  margin: 0 0 1px;
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.footer-links a {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: clamp(11px, 0.8vw, 13px);
+  line-height: 1.2;
+  transition: color 0.15s ease;
+}
+
+.footer-links a:hover {
+  color: var(--orange);
+}
+
+.footer-contact {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-contact li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(11px, 0.8vw, 13px);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+}
+
+.footer-icon-circle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0a3854;
+}
+
+.footer-icon-circle img {
+  width: 40px;
+  height: 40px;
+}
+
+/* الفقرة 4: الشريط السفلي (الحقوق القانونية) */
+.footer-bottom {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 2px clamp(20px, 4vw, 60px);
+  max-width: 1800px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background: #083a81;
+}
+
+/* بالصفحات التانية (مش الهوم): نفس عرض/padding حاوية الصفحة (.container) */
+.footer-bottom-narrow {
+  max-width: min(1360px, 96vw);
+  padding-left: clamp(24px, 5vw, 56px);
+  padding-right: clamp(24px, 5vw, 56px);
+}
+
+.footer-copy {
+  margin: 0;
+  font-size: clamp(10px, 0.7vw, 12px);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-legal a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: clamp(10px, 0.7vw, 12px);
+  transition: color 0.15s ease;
+}
+
+.footer-legal a:hover {
+  color: var(--orange);
+}
+
+/* الفقرة 5: الشاشات الصغيرة */
+@media (max-width: 900px) {
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "brand brand"
+      "col1 col2";
+  }
+
+  .footer-brand {
+    grid-area: brand;
+  }
+
+  .footer-col-1 {
+    grid-area: col1;
+  }
+
+  .footer-col-2 {
+    grid-area: col2;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    column-gap: 40px;
+    row-gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-links {
+    column-gap: 20px;
+  }
+
+  .footer-legal {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+}

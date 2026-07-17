@@ -1,0 +1,143 @@
+/* محتوى صفحة تفاصيل الخبر */
+.news-detail {
+  background: #ffffff;
+  padding: clamp(28px, 4vw, 40px) 0 clamp(56px, 9vw, 96px);
+  animation: news-detail-in 0.35s ease;
+}
+
+@keyframes news-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.news-detail-inner {
+  max-width: min(900px, 96vw);
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 56px);
+}
+
+.news-back-link {
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--orange, #f5a623);
+}
+
+.news-detail-title {
+  margin: 14px 0 24px;
+  color: #008c98;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.news-detail-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 800 / 330;
+  border-radius: 14px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.news-detail-media .media-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.news-detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 20px;
+  color: #7a7f87;
+  font-size: 13px;
+}
+
+.news-detail-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.news-detail-meta-divider {
+  width: 1px;
+  height: 14px;
+  background: #d8d9dc;
+}
+
+.news-detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #4a4a4a;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.news-detail-body p {
+  margin: 0;
+}
+
+.news-detail-lead {
+  font-weight: 700;
+  color: #1b2733;
+}
+
+.news-detail-quote {
+  margin: 8px 0;
+  padding: 24px clamp(20px, 3vw, 32px);
+  border: 1px solid #cfe6ea;
+  border-radius: 12px;
+  background: #f6fbfc;
+  color: #0076bf;
+}
+
+.news-detail-quote svg {
+  color: #0076bf;
+  opacity: 0.6;
+}
+
+.news-detail-quote p {
+  margin: 12px 0 16px;
+  color: #1b2733;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.news-detail-quote footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.news-detail-quote-author {
+  color: #1b2733;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.news-detail-quote-role {
+  color: #0076bf;
+  font-size: 13px;
+  font-weight: 500;
+}
