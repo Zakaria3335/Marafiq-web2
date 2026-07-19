@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/marafiq/:path*",
+      "destination": "https://app-api-marafiq-we-dev-001.azurewebsites.net/:path*"
+    }
+  ]
+}
