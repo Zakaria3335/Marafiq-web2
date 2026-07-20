@@ -1,27 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 import { useLanguage } from "../../context/useLanguage";
-import {
-  registerAccount,
-  requestLoginOtp,
-  verifyRegistration,
-} from "../../api/auth";
+import { requestLoginOtp, resendOtp, verifyOtp } from "../../api/auth";
 import { ApiError } from "../../api/client";
-import { lookupEntities } from "../../api/lookup";
 import "./Auth.css";
-
-// TODO: تأكيد القيم الرقمية الفعلية لـ AccountType من فريق الـ backend
-const ACCOUNT_TYPE_VALUES = { personal: 1, company: 2 };
-
-// TODO: تأكيد اسم الـ entity وأسماء الأعمدة الفعلية لقائمة Al-Wilaya من
-// فريق الـ backend — ما قدرنا نجربها Live بسبب مشكلة الـ 401 الحالية
-const AL_WILAYA_ID_FIELD = "cr7c8_alwilayaid";
-const AL_WILAYA_NAME_FIELD = "cr7c8_name";
-const AL_WILAYA_LOOKUP = {
-  entityName: "cr7c8_alwilaya",
-  columns: `${AL_WILAYA_ID_FIELD},${AL_WILAYA_NAME_FIELD}`,
-};
 
 function maskMobile(mobile) {
   const digits = mobile.replace(/\D/g, "");
@@ -90,40 +73,14 @@ export default function Auth() {
   const [otpContext, setOtpContext] = useState("login");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
-  const [signupLoading, setSignupLoading] = useState(false);
-  const [signupError, setSignupError] = useState("");
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendError, setResendError] = useState("");
+  const [resendSuccess, setResendSuccess] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
   const [otpError, setOtpError] = useState("");
-  const [wilayaOptions, setWilayaOptions] = useState([]);
-  const [wilayaLoading, setWilayaLoading] = useState(true);
-  const [wilayaError, setWilayaError] = useState("");
   const otpInputRefs = useRef([]);
 
-  // بنجيب قائمة Al-Wilaya الحقيقية أول ما تنفتح صفحة التسجيل
-  useEffect(() => {
-    if (!isSignup) return undefined;
-    let cancelled = false;
-    lookupEntities(AL_WILAYA_LOOKUP)
-      .then((rows) => {
-        if (cancelled) return;
-        setWilayaOptions(rows || []);
-        setWilayaError("");
-      })
-      .catch((error) => {
-        if (cancelled) return;
-        setWilayaError(
-          error instanceof ApiError ? error.message : t("auth.alWilayaError"),
-        );
-      })
-      .finally(() => {
-        if (!cancelled) setWilayaLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [isSignup]);
-
-  // تسجيل الدخول الحقيقي: بيبعت رقم التلفون لـ /auth/login/request-otp
+  // تسجيل الدخول: بيبعت رقم التلفون لـ /auth/login/request-otp
   // ولما يوصل رد ناجح، بيفتح نافذة إدخال الكود
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -134,6 +91,8 @@ export default function Auth() {
       setOtpContext("login");
       setOtpMobile(loginForm.mobile);
       setOtpValues(["", "", "", ""]);
+      setResendError("");
+      setResendSuccess(false);
       setOtpError("");
       setShowOtpModal(true);
     } catch (error) {
@@ -145,30 +104,15 @@ export default function Auth() {
     }
   };
 
-  // خطوة 1 من التسجيل الحقيقي: بس رقم التلفون + رقم البطاقة المدنية بينبعتو
-  // هون (لـ /auth/register)، وباقي بيانات البروفايل منجمعهن مع الكود بخطوة
-  // التحقق (/auth/register/verify) لأنو هيك بالضبط شكل الـ API
-  const handleSignupSubmit = async (event) => {
+  const handleSignupSubmit = (event) => {
     event.preventDefault();
-    setSignupError("");
-    setSignupLoading(true);
-    try {
-      await registerAccount({
-        phone: signupForm.mobile,
-        civilId: signupForm.civilId,
-      });
-      setOtpContext("signup");
-      setOtpMobile(signupForm.mobile);
-      setOtpValues(["", "", "", ""]);
-      setOtpError("");
-      setShowOtpModal(true);
-    } catch (error) {
-      setSignupError(
-        error instanceof ApiError ? error.message : t("auth.genericError"),
-      );
-    } finally {
-      setSignupLoading(false);
-    }
+    setOtpContext("signup");
+    setOtpMobile(signupForm.mobile);
+    setOtpValues(["", "", "", ""]);
+    setResendError("");
+    setResendSuccess(false);
+    setOtpError("");
+    setShowOtpModal(true);
   };
 
   const handleOtpChange = (index, value) => {
@@ -189,60 +133,67 @@ export default function Auth() {
     }
   };
 
+  // بيعيد إرسال كود التحقق لنفس الرقم عبر /auth/otp/resend
+  const handleResendOtp = async () => {
+    setResendError("");
+    setResendSuccess(false);
+    setResendLoading(true);
+    try {
+      await resendOtp({ phone: otpMobile });
+      setResendSuccess(true);
+    } catch (error) {
+      setResendError(
+        error instanceof ApiError ? error.message : t("auth.genericError"),
+      );
+    } finally {
+      setResendLoading(false);
+    }
+  };
+
+  // بيتحقق من الكود عبر /auth/otp/verify قبل ما يسجّل الدخول محلياً
   const handleVerifySubmit = async (event) => {
     event.preventDefault();
+    setOtpError("");
+    setOtpLoading(true);
+    try {
+      await verifyOtp({ phone: otpMobile, code: otpValues.join("") });
 
-    if (otpContext === "signup") {
-      setOtpError("");
-      setOtpLoading(true);
-      try {
-        await verifyRegistration({
-          code: otpValues.join(""),
-          accountType: ACCOUNT_TYPE_VALUES[signupForm.accountType],
-          firstName: signupForm.firstName,
-          lastName: signupForm.lastName,
-          civilId: signupForm.civilId,
+      if (otpContext === "signup") {
+        login({
+          initials:
+            `${signupForm.firstName[0] || ""}${signupForm.lastName[0] || ""}`.toUpperCase() ||
+            "GU",
+          name: `${signupForm.firstName} ${signupForm.lastName}`.trim(),
+          type:
+            signupForm.accountType === "company"
+              ? "Company Account"
+              : "Personal Account",
+          mobile: signupForm.mobile,
           email: signupForm.email,
-          address: signupForm.address || null,
-          alWilayaId: signupForm.alWilayaId,
-          phone: signupForm.mobile,
-          companyName:
-            signupForm.accountType === "company"
-              ? signupForm.companyName
-              : null,
-          crNumber:
-            signupForm.accountType === "company" ? signupForm.crNumber : null,
-          companyPhone:
-            signupForm.accountType === "company"
-              ? signupForm.companyPhone
-              : null,
-          companyAddress:
-            signupForm.accountType === "company"
-              ? signupForm.companyAddress
-              : null,
+          address: signupForm.address,
         });
         setShowOtpModal(false);
         setShowSuccessModal(true);
-      } catch (error) {
-        setOtpError(
-          error instanceof ApiError ? error.message : t("auth.invalidCode"),
-        );
-      } finally {
-        setOtpLoading(false);
+        return;
       }
-      return;
-    }
 
-    login({
-      initials: "GU",
-      name: "Guest User",
-      type: "Personal Account",
-      mobile: otpMobile,
-      email: "",
-      address: "",
-    });
-    setShowOtpModal(false);
-    navigate("/");
+      login({
+        initials: "GU",
+        name: "Guest User",
+        type: "Personal Account",
+        mobile: otpMobile,
+        email: "",
+        address: "",
+      });
+      setShowOtpModal(false);
+      navigate("/");
+    } catch (error) {
+      setOtpError(
+        error instanceof ApiError ? error.message : t("auth.invalidCode"),
+      );
+    } finally {
+      setOtpLoading(false);
+    }
   };
 
   const handleSuccessDone = () => {
@@ -386,41 +337,20 @@ export default function Auth() {
                   />
                 </label>
 
-                <div className="auth-input-group">
-                  <label
-                    className={
-                      wilayaError ? "auth-input auth-input-error" : "auth-input"
+                <label className="auth-input">
+                  <input
+                    type="text"
+                    required
+                    placeholder={t("auth.alWilaya")}
+                    value={signupForm.alWilayaId}
+                    onChange={(event) =>
+                      setSignupForm((form) => ({
+                        ...form,
+                        alWilayaId: event.target.value,
+                      }))
                     }
-                  >
-                    <select
-                      required
-                      className="auth-select"
-                      value={signupForm.alWilayaId}
-                      disabled={wilayaLoading || wilayaOptions.length === 0}
-                      onChange={(event) =>
-                        setSignupForm((form) => ({
-                          ...form,
-                          alWilayaId: event.target.value,
-                        }))
-                      }
-                    >
-                      <option value="" disabled>
-                        {wilayaLoading ? t("auth.loadingAlWilaya") : t("auth.alWilaya")}
-                      </option>
-                      {wilayaOptions.map((option) => (
-                        <option
-                          key={option[AL_WILAYA_ID_FIELD]}
-                          value={option[AL_WILAYA_ID_FIELD]}
-                        >
-                          {option[AL_WILAYA_NAME_FIELD]}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  {wilayaError && (
-                    <p className="auth-field-error">{wilayaError}</p>
-                  )}
-                </div>
+                  />
+                </label>
 
                 <label className="auth-input">
                   <input
@@ -507,18 +437,8 @@ export default function Auth() {
                   {t("auth.alreadyHaveAccount")}
                 </Link>
 
-                {signupError && (
-                  <p className="auth-field-error">{signupError}</p>
-                )}
-
-                <button
-                  type="submit"
-                  className="auth-submit-btn"
-                  disabled={
-                    signupLoading || wilayaLoading || wilayaOptions.length === 0
-                  }
-                >
-                  {signupLoading ? t("auth.creating") : t("auth.createAccountTitle")}
+                <button type="submit" className="auth-submit-btn">
+                  {t("auth.createAccountTitle")}
                 </button>
               </form>
             </>
@@ -606,6 +526,19 @@ export default function Auth() {
                   />
                 ))}
               </div>
+
+              <button
+                type="button"
+                className="auth-otp-resend"
+                disabled={resendLoading}
+                onClick={handleResendOtp}
+              >
+                {resendLoading ? t("auth.resending") : t("auth.resendCode")}
+              </button>
+              {resendSuccess && (
+                <p className="auth-otp-resend-success">{t("auth.codeResent")}</p>
+              )}
+              {resendError && <p className="auth-field-error">{resendError}</p>}
 
               {otpError && <p className="auth-field-error">{otpError}</p>}
 
