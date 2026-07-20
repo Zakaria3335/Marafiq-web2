@@ -12,10 +12,17 @@ import { useAuth } from "../../context/useAuth";
 import { useLanguage } from "../../context/useLanguage";
 import "./Dashboard.css";
 
-// أيقونة السهم الصغيرة بين أجزاء الـ breadcrumb
+// أيقونة السهم الصغيرة بين أجزاء الـ breadcrumb (بتتقلب لما اللغة عربي)
 function BreadcrumbChevron() {
+  const { language } = useLanguage();
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      style={{ transform: language === "ar" ? "rotate(180deg)" : undefined }}
+    >
       <path
         d="M9 5l7 7-7 7"
         stroke="currentColor"
@@ -42,8 +49,15 @@ function ChevronDownIcon() {
 }
 
 function ArrowRightIcon() {
+  const { language } = useLanguage();
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      style={{ transform: language === "ar" ? "scaleX(-1)" : undefined }}
+    >
       <path
         d="M5 12h14M13 6l6 6-6 6"
         stroke="currentColor"

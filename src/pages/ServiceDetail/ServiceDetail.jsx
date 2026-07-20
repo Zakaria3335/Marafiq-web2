@@ -45,7 +45,16 @@ function mapServiceCard(card, language) {
 
 // سهم الرجوع جنب عنوان الخدمة
 function BackArrowIcon() {
-  return <img src="/sahem3.svg" alt="" width="20" height="20" />;
+  const { language } = useLanguage();
+  return (
+    <img
+      src="/sahem3.svg"
+      alt=""
+      width="20"
+      height="20"
+      style={{ transform: language === "ar" ? "scaleX(-1)" : undefined }}
+    />
+  );
 }
 
 function ClockIcon() {

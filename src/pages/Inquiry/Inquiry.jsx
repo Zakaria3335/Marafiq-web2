@@ -8,15 +8,31 @@ import "./Inquiry.css";
 const PAGE_SIZE = 4;
 
 function BreadcrumbChevron() {
+  const { language } = useLanguage();
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      style={{ transform: language === "ar" ? "rotate(180deg)" : undefined }}
+    >
       <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
 function BackArrowIcon() {
-  return <img src="/sahem3.svg" alt="" width="22" height="22" />;
+  const { language } = useLanguage();
+  return (
+    <img
+      src="/sahem3.svg"
+      alt=""
+      width="22"
+      height="22"
+      style={{ transform: language === "ar" ? "scaleX(-1)" : undefined }}
+    />
+  );
 }
 
 function CalendarIcon() {
@@ -61,13 +77,15 @@ function AwaitingIcon() {
 }
 
 function ChevronArrowIcon({ direction = "right" }) {
+  const { language } = useLanguage();
+  const flipped = (language === "ar") !== (direction === "left");
   return (
     <svg
       width="14"
       height="14"
       viewBox="0 0 24 24"
       fill="none"
-      style={{ transform: direction === "left" ? "rotate(180deg)" : undefined }}
+      style={{ transform: flipped ? "rotate(180deg)" : undefined }}
     >
       <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>

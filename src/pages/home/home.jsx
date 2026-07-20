@@ -100,13 +100,15 @@ function QuestionMarksGraphic() {
 }
 
 function ChevronIcon({ direction = "right" }) {
+  const { language } = useLanguage();
+  const flipped = (language === "ar") !== (direction === "left");
   return (
     <svg
       width="16"
       height="16"
       viewBox="0 0 24 24"
       fill="none"
-      style={{ transform: direction === "left" ? "rotate(180deg)" : undefined }}
+      style={{ transform: flipped ? "rotate(180deg)" : undefined }}
     >
       <path
         d="M9 5l7 7-7 7"
@@ -353,7 +355,11 @@ export default function Home() {
               aria-label={t("home.services.prev")}
               onClick={() => scrollByCard(-1)}
             >
-              <img src="/sahem2.svg" alt="" />
+              <img
+                src="/sahem2.svg"
+                alt=""
+                style={{ transform: language === "ar" ? "scaleX(-1)" : undefined }}
+              />
             </button>
 
             <div className="services-track" ref={trackRef}>
@@ -397,7 +403,11 @@ export default function Home() {
               aria-label={t("home.services.next")}
               onClick={() => scrollByCard(1)}
             >
-              <img src="/sahem.svg" alt="" />
+              <img
+                src="/sahem.svg"
+                alt=""
+                style={{ transform: language === "ar" ? "scaleX(-1)" : undefined }}
+              />
             </button>
           </div>
         </div>
