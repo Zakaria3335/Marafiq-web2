@@ -1,5 +1,10 @@
 import { apiFetch } from "./client";
 
+// كل الخدمات المعروضة بصفحة Services (عنوان/وصف بالعربي والإنجليزي، بدون صور)
+export function getServices() {
+  return apiFetch("/api/v1/home-page/services");
+}
+
 // طلب NOC (No Objection Certificate) — multipart/form-data لأنو في حقلين ملف
 // (DrawingKrooki, NocLetterToMarafiq). لازم الـ FormData تتبنى بنفس أسماء
 // الحقول متل ما هي بالـ curl: CompanyNameId, ProjectName, ApplicantNameId,

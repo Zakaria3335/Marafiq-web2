@@ -10,12 +10,12 @@ import { useLanguage } from "../../context/useLanguage";
 import { translations } from "../../i18n/translations";
 import "./ServiceApplicationForm.css";
 
-// الـ GUID الحقيقي بالـ backend لكل خدمة عندها فورم تقديم فعلي — منستعملو
-// لجلب تفاصيل الكرت (خطوات، رسوم، مستندات) من /home-page/services-card/{id}
-const serviceCardIdByBaseId = {
-  "water-connection": "64dd19b8-e36a-f111-a826-7c1e52207175",
-  "tanker-license": "4c784c48-4d7c-f111-ab0f-000d3ab12cf3",
-  noc: "098157fd-637b-f111-ab0f-000d3ab12cf3",
+// أنواع الخدمات يلي عندها فورم تقديم فعلي بالباك اند (باقي الخدمات القادمة
+// من /home-page/services بترجع محتوى ثابت من الترجمة كـ fallback بدون فورم)
+const baseIdByServiceId = {
+  "64dd19b8-e36a-f111-a826-7c1e52207175": "water-connection",
+  "4c784c48-4d7c-f111-ab0f-000d3ab12cf3": "tanker-license",
+  "098157fd-637b-f111-ab0f-000d3ab12cf3": "noc",
 };
 
 // بيحول رد الـ API لنفس شكل "content" يلي الصفحة أصلاً عم تستخدمو (من الترجمة)
@@ -164,17 +164,15 @@ const submissionConfigByBaseId = {
 export default function ServiceDetail({ service, onBack }) {
   const { language } = useLanguage();
   const serviceDetailDict = translations[language].serviceDetail;
-  const baseId = service.id.replace(/-\d+$/, "");
+  const baseId = baseIdByServiceId[service.id] || service.id;
   const staticContent = serviceDetailDict[baseId] || serviceDetailDict.fallback;
   const submissionConfig = submissionConfigByBaseId[baseId];
   const [showApplyForm, setShowApplyForm] = useState(false);
   const [apiCard, setApiCard] = useState(null);
 
   useEffect(() => {
-    const serviceCardId = serviceCardIdByBaseId[baseId];
-    if (!serviceCardId) return undefined;
     let cancelled = false;
-    getServiceCard(serviceCardId)
+    getServiceCard(service.id)
       .then((result) => {
         if (!cancelled) setApiCard(result);
       })
@@ -184,7 +182,7 @@ export default function ServiceDetail({ service, onBack }) {
     return () => {
       cancelled = true;
     };
-  }, [baseId]);
+  }, [service.id]);
 
   const mappedCard = mapServiceCard(apiCard, language);
   const content = {

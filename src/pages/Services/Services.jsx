@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import Reveal from "../../components/Reveal/Reveal";
 import ServiceDetail from "../ServiceDetail/ServiceDetail";
 import { useLanguage } from "../../context/useLanguage";
+import { getServices } from "../../api/services";
 import "./Services.css";
 import "../ServiceDetail/ServiceDetail.css";
 
@@ -77,34 +78,44 @@ function ChevronIcon() {
   );
 }
 
-// بيانات كل الخدمات المتاحة (نفس ترتيب الفيغما — 8 كروت). العنوان/الوصف
-// بيجو من الترجمة عن طريق services.items.<baseId>
-const services = [
-  { id: "water-connection-1", baseId: "water-connection", image: "/services/water-connection.png" },
-  { id: "tanker-license-1", baseId: "tanker-license", image: "/services/tanker.png" },
-  { id: "water-meter-1", baseId: "water-meter", image: "/services/water-meter.png" },
-  { id: "water-disconnection-1", baseId: "water-disconnection", image: "/services/valve-disconnection.png" },
-  { id: "water-meter-2", baseId: "water-meter", image: "/services/water-meter.png" },
-  { id: "water-disconnection-2", baseId: "water-disconnection", image: "/services/valve-disconnection.png" },
-  { id: "tanker-license-2", baseId: "tanker-license", image: "/services/tanker.png" },
-  { id: "water-connection-2", baseId: "water-connection", image: "/services/water-connection.png" },
-  { id: "noc-1", baseId: "noc", image: "/services/valve-disconnection.png" },
+// صور محلية بتتكرر بالدور حسب ترتيب الخدمة (الـ API ما بترجع صور للخدمات)
+const SERVICE_IMAGES = [
+  "/services/water-connection.png",
+  "/services/tanker.png",
+  "/services/water-meter.png",
+  "/services/valve-disconnection.png",
 ];
 
 export default function Services() {
   const location = useLocation();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [query, setQuery] = useState("");
   const [selectedService, setSelectedService] = useState(null);
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    getServices()
+      .then((result) => {
+        if (!cancelled) setServices(result?.services || []);
+      })
+      .catch(() => {
+        // بيضل services فاضية، الشبكة بتبين "noResults" لحد ما الطلب ينجح
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const translatedServices = useMemo(
     () =>
-      services.map((service) => ({
-        ...service,
-        title: t(`services.items.${service.baseId}.title`),
-        description: t(`services.items.${service.baseId}.description`),
+      services.map((service, index) => ({
+        id: service.serviceId,
+        title: (language === "ar" && service.titleAr) || service.titleEn,
+        description: (language === "ar" && service.descriptionAr) || service.descriptionEn,
+        image: SERVICE_IMAGES[index % SERVICE_IMAGES.length],
       })),
-    [t],
+    [services, language],
   );
 
   useEffect(() => {
