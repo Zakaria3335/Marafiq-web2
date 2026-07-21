@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { lookupEntities } from "../../api/lookup";
+import { useState } from "react";
 import { ApiError } from "../../api/client";
 import { useLanguage } from "../../context/useLanguage";
+import { AL_WILAYA_ID_FIELD, AL_WILAYA_NAME_FIELD, useAlWilayaOptions } from "../../hooks/useAlWilayaOptions";
 
 // سهم الرجوع (نفس أيقونة صفحة تفاصيل الخدمة)
 function BackArrowIcon() {
@@ -118,38 +118,11 @@ function FileField({ name, label, required }) {
 }
 
 // حقل Al-Wilaya الحقيقي (نفس المصدر يلي بيتستعمل بصفحة التسجيل) — GUID فعلي
-// مش رقم مخمّن، لأنو الـ lookup هاد مجرّب وموجود مسبقاً بـ Auth.jsx
-const AL_WILAYA_ID_FIELD = "cr7c8_alwilayaid";
-const AL_WILAYA_NAME_FIELD = "cr7c8_name";
-const AL_WILAYA_LOOKUP = {
-  entityName: "cr7c8_alwilaya",
-  columns: `${AL_WILAYA_ID_FIELD},${AL_WILAYA_NAME_FIELD}`,
-};
-
+// مش رقم مخمّن، عن طريق useAlWilayaOptions المشترك
 function AlWilayaField({ name, label, required }) {
   const { t } = useLanguage();
-  const [options, setOptions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    let cancelled = false;
-    lookupEntities(AL_WILAYA_LOOKUP)
-      .then((rows) => {
-        if (cancelled) return;
-        setOptions(rows || []);
-      })
-      .catch((err) => {
-        if (cancelled) return;
-        setError(err instanceof ApiError ? err.message : t("serviceForm.genericError"));
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [t]);
+  const { options, loading, error: lookupError } = useAlWilayaOptions();
+  const error = lookupError && t("serviceForm.genericError");
 
   return (
     <div className="app-field">
