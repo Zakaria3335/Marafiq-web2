@@ -86,6 +86,17 @@
   background: #ffffff;
 }
 
+/* بالعربي النص بيلزق يمين، فالنقطة والـ padding لازم يتبعوا يمين مش شمال */
+html[dir="rtl"] .service-detail-description li {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+html[dir="rtl"] .service-detail-description li::before {
+  left: auto;
+  right: 0;
+}
+
 /* الصفين تحت: Service Process + About the Service */
 .service-detail-columns {
   display: grid;
@@ -146,6 +157,13 @@
   height: 22px;
   background: #00788b;
   opacity: 0.35;
+}
+
+/* بالعربي دائرة رقم الخطوة بتلزق يمين الـ li (flex بينعكس تلقائي مع dir=rtl)،
+   فخط الوصل لازم يتبعها ليمين مش يضل شمال */
+html[dir="rtl"] .service-steps li:not(:last-child)::after {
+  left: auto;
+  right: 13px;
 }
 
 .service-step-number {

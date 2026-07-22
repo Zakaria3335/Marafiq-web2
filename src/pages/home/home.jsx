@@ -12,6 +12,17 @@ const complaints = [
   { id: "meter-issues", theme: "blue" },
 ];
 
+// ترجمة احتياطية لعناوين الخدمات لما الـ API يرجّع titleAr فاضي/null (حالياً
+// معظم الخدمات ناقصها الترجمة العربية بقاعدة بيانات الباك اند) — لازم تنشال
+// لما فريق المحتوى يعبّي titleAr الصحيح من عندهم
+const SERVICE_TITLE_AR_FALLBACK = {
+  "NOC Request": "طلب شهادة عدم ممانعة",
+  "Tanker Filling License Request": "طلب ترخيص تعبئة الصهاريج",
+  "Report Of Violation": "الإبلاغ عن مخالفة",
+  "VAT Exemption Request": "طلب إعفاء من ضريبة القيمة المضافة",
+  "Fire Hydrant Relocation Request": "طلب نقل صنبور إطفاء الحريق",
+};
+
 // صور محلية للخدمات (الـ API ما بترجع صور)، بتتكرر بالدور حسب ترتيب الخدمة
 const SERVICE_IMAGES = [
   "/services/water-connection.png",
@@ -376,7 +387,11 @@ export default function Home() {
                   }}
                 >
                   <div className="service-card-overlay">
-                    <h3>{(language === "ar" && service.titleAr) || service.titleEn}</h3>
+                    <h3>
+                      {(language === "ar" &&
+                        (service.titleAr || SERVICE_TITLE_AR_FALLBACK[service.titleEn])) ||
+                        service.titleEn}
+                    </h3>
 
                     <p>{(language === "ar" && service.descriptionAr) || service.descriptionEn}</p>
 

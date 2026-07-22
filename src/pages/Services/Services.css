@@ -182,6 +182,12 @@ button.breadcrumb-link {
   text-align: left;
 }
 
+/* بالعربي (RTL) نص/محتوى كرت الخدمة لازم يلزق يمين مش شمال */
+html[dir="rtl"] .services-card-overlay {
+  align-items: flex-end;
+  text-align: right;
+}
+
 .services-card-overlay h3 {
   flex-shrink: 0;
   width: 100%;

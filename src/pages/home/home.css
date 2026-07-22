@@ -418,6 +418,12 @@
   text-align: left;
 }
 
+/* بالعربي (RTL) نص/محتوى كرت الخدمة لازم يلزق يمين مش شمال */
+html[dir="rtl"] .service-card-overlay {
+  align-items: flex-end;
+  text-align: right;
+}
+
 .service-card-overlay h3 {
   flex-shrink: 0;
   width: 100%;
@@ -476,6 +482,11 @@
   .services-header {
     text-align: left;
     padding-bottom: 32px;
+  }
+
+  /* بالعربي عالموبايل الهيدر لازم يلزق يمين مش شمال */
+  html[dir="rtl"] .services-header {
+    text-align: right;
   }
 
   .services-header-text {
