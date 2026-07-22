@@ -340,6 +340,9 @@ export const translations = {
       requestName: "Request Name",
       startDate: "Start Date",
       endDate: "End Date",
+      loading: "Loading…",
+      noComplaints: "No complaints yet.",
+      genericError: "Could not load your complaints. Please try again.",
       tabs: {
         services: "My Services",
         complaints: "My Complaints",
@@ -986,6 +989,9 @@ export const translations = {
       requestName: "اسم الطلب",
       startDate: "تاريخ البدء",
       endDate: "تاريخ الانتهاء",
+      loading: "جارِ التحميل…",
+      noComplaints: "ما في شكاوى لهلق.",
+      genericError: "تعذّر تحميل شكاواك. جرّب مرة تانية.",
       tabs: {
         services: "خدماتي",
         complaints: "شكاواي",

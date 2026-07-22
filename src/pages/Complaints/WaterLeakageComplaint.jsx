@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 import { useLanguage } from "../../context/useLanguage";
+import { submitWaterLeakageComplaint } from "../../api/complaints";
+import { ApiError } from "../../api/client";
 import "../ServiceDetail/ServiceApplicationForm.css";
 import "./WaterLeakageComplaint.css";
 
@@ -208,7 +210,6 @@ export default function WaterLeakageComplaint() {
     label,
   }));
 
-  const [accountNo, setAccountNo] = useState("");
   const [complaintType, setComplaintType] = useState("");
   const [securityCode, setSecurityCode] = useState("");
   const [complaintDetails, setComplaintDetails] = useState("");
@@ -216,11 +217,28 @@ export default function WaterLeakageComplaint() {
 
   const [submitted, setSubmitted] = useState(false);
   const [refNumber, setRefNumber] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setRefNumber(`WLC-${Date.now().toString().slice(-8)}`);
-    setSubmitted(true);
+    setSubmitError("");
+    setSubmitLoading(true);
+    try {
+      const result = await submitWaterLeakageComplaint({
+        accountNo: user?.accountNo,
+        complaintTypeId: Number(complaintType),
+        complaintDetails,
+      });
+      setRefNumber(
+        result?.requestNumber || result?.ticketNumber || result?.caseNumber || result?.id || "",
+      );
+      setSubmitted(true);
+    } catch (error) {
+      setSubmitError(error instanceof ApiError ? error.message : t("serviceForm.genericError"));
+    } finally {
+      setSubmitLoading(false);
+    }
   };
 
   return (
@@ -257,9 +275,8 @@ export default function WaterLeakageComplaint() {
                 <TextField
                   label={t("complaintForm.accountNo")}
                   required
-                  placeholder={t("complaintForm.accountNo")}
-                  value={accountNo}
-                  onChange={(event) => setAccountNo(event.target.value)}
+                  readOnly
+                  value={user?.accountNo || ""}
                 />
                 <TextField label={t("complaintForm.mobileNumber")} required readOnly value={user?.mobile || ""} />
                 <TextField label={t("complaintForm.email")} readOnly value={user?.email || ""} />
@@ -315,12 +332,14 @@ export default function WaterLeakageComplaint() {
               </div>
             </FormSection>
 
+            {submitError && <p className="app-form-error">{submitError}</p>}
+
             <div className="app-form-actions">
               <button type="button" className="app-cancel-btn" onClick={() => navigate(-1)}>
                 {t("serviceForm.cancel")}
               </button>
-              <button type="submit" className="app-submit-btn">
-                {t("serviceForm.submit")}
+              <button type="submit" className="app-submit-btn" disabled={submitLoading}>
+                {submitLoading ? t("serviceForm.submitting") : t("serviceForm.submit")}
               </button>
             </div>
           </form>

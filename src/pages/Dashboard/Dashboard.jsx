@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Area,
@@ -10,6 +10,8 @@ import {
 } from "recharts";
 import { useAuth } from "../../context/useAuth";
 import { useLanguage } from "../../context/useLanguage";
+import { getMyComplaints } from "../../api/complaints";
+import { ApiError } from "../../api/client";
 import "./Dashboard.css";
 
 // أيقونة السهم الصغيرة بين أجزاء الـ breadcrumb (بتتقلب لما اللغة عربي)
@@ -464,8 +466,43 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState(requestTabs[0].id);
   const [month, setMonth] = useState("January");
   const [year, setYear] = useState("2026");
+  const [complaintsRows, setComplaintsRows] = useState(null);
+  const [complaintsLoading, setComplaintsLoading] = useState(true);
+  const [complaintsError, setComplaintsError] = useState("");
+
+  // تبويب "Complaints" بس هو المتوصّل بالـ API الحقيقي لهلق (باقي التبويبات
+  // لسا mock data) — بنجيب شكاوى المستخدم الحقيقية ونحولها لنفس شكل الصفوف
+  useEffect(() => {
+    let cancelled = false;
+    getMyComplaints()
+      .then((result) => {
+        if (cancelled) return;
+        const list = Array.isArray(result) ? result : result?.result || [];
+        setComplaintsRows(
+          list.map((item) => ({
+            id: item.ticketNumber || item.caseNumber || item.id || "-",
+            name: item.title || item.strComplaintDetails || item.description || "-",
+            start: item.createdOn || item.createdDate || "-",
+            end: item.resolvedOn || item.closedDate || "-",
+            status: item.status || item.statusCode || "Pending",
+          })),
+        );
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setComplaintsError(error instanceof ApiError ? error.message : t("dashboard.genericError"));
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setComplaintsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [t]);
 
   const currentTab = requestTabs.find((tab) => tab.id === activeTab);
+  const currentRows = activeTab === "complaints" && complaintsRows ? complaintsRows : currentTab.rows;
 
   return (
     <div className="page-canvas">
@@ -716,43 +753,57 @@ export default function Dashboard() {
                   ))}
                 </div>
 
-                <div className="dash-table-scroll">
-                  <table className="dash-table">
-                    <thead>
-                      <tr>
-                        <th>{t("dashboard.requestNb")}</th>
-                        <th>{t("dashboard.requestName")}</th>
-                        <th>{t("dashboard.startDate")}</th>
-                        <th>{t("dashboard.endDate")}</th>
-                        <th>{t("dashboard.status")}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentTab.rows.map((row, index) => (
-                        <tr key={`${row.id}-${index}`}>
-                          <td>
-                            <Link
-                              to={`/dashboard/requests/${row.id}`}
-                              className="dash-table-link"
-                            >
-                              {row.id}
-                            </Link>
-                          </td>
-                          <td>{t(row.nameKey)}</td>
-                          <td>{row.start}</td>
-                          <td>{row.end}</td>
-                          <td>
-                            <span
-                              className={`dash-status-pill ${statusClassMap[row.status]}`}
-                            >
-                              {t(`dashboard.statusLabels.${row.status}`)}
-                            </span>
-                          </td>
+                {activeTab === "complaints" && complaintsLoading && (
+                  <p className="dash-table-status">{t("dashboard.loading")}</p>
+                )}
+                {activeTab === "complaints" && !complaintsLoading && complaintsError && (
+                  <p className="dash-table-status">{complaintsError}</p>
+                )}
+                {activeTab === "complaints" && !complaintsLoading && !complaintsError && complaintsRows?.length === 0 && (
+                  <p className="dash-table-status">{t("dashboard.noComplaints")}</p>
+                )}
+
+                {!(activeTab === "complaints" && (complaintsLoading || complaintsError || complaintsRows?.length === 0)) && (
+                  <div className="dash-table-scroll">
+                    <table className="dash-table">
+                      <thead>
+                        <tr>
+                          <th>{t("dashboard.requestNb")}</th>
+                          <th>{t("dashboard.requestName")}</th>
+                          <th>{t("dashboard.startDate")}</th>
+                          <th>{t("dashboard.endDate")}</th>
+                          <th>{t("dashboard.status")}</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {currentRows.map((row, index) => (
+                          <tr key={`${row.id}-${index}`}>
+                            <td>
+                              <Link
+                                to={`/dashboard/requests/${row.id}`}
+                                className="dash-table-link"
+                              >
+                                {row.id}
+                              </Link>
+                            </td>
+                            <td>{row.nameKey ? t(row.nameKey) : row.name}</td>
+                            <td>{row.start}</td>
+                            <td>{row.end}</td>
+                            <td>
+                              <span
+                                className={`dash-status-pill ${statusClassMap[row.status] || "dash-status-orange"}`}
+                              >
+                                {t(`dashboard.statusLabels.${row.status}`) === `dashboard.statusLabels.${row.status}`
+                                  ? row.status
+                                  : t(`dashboard.statusLabels.${row.status}`)}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </div>
 

@@ -112,7 +112,9 @@ function ProfileMenu({ user, onLogout, t }) {
             <span className="profile-avatar">{user.initials}</span>
             <div>
               <p className="profile-dropdown-name">{user.name}</p>
-              <p className="profile-dropdown-type">{user.type}</p>
+              <p className="profile-dropdown-type">
+                {t(user.accountType === "company" ? "auth.companyAccount" : "auth.personalAccount")}
+              </p>
             </div>
           </div>
           <button

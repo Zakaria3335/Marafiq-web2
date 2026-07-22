@@ -5,7 +5,7 @@ import { useLanguage } from "../../context/useLanguage";
 import {
   registerAccount,
   requestLoginOtp,
-  verifyOtp,
+  verifyLoginOtp,
   verifyRegistration,
 } from "../../api/auth";
 import { ApiError } from "../../api/client";
@@ -59,7 +59,7 @@ function PhoneIcon() {
 export default function Auth() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { loginWithTokens } = useAuth();
   const { t } = useLanguage();
   const {
     options: alWilayaOptions,
@@ -227,34 +227,15 @@ export default function Auth() {
               : null,
         });
 
-        login({
-          initials:
-            `${signupForm.firstName[0] || ""}${signupForm.lastName[0] || ""}`.toUpperCase() ||
-            "GU",
-          name: `${signupForm.firstName} ${signupForm.lastName}`.trim(),
-          type:
-            signupForm.accountType === "company"
-              ? "Company Account"
-              : "Personal Account",
-          mobile: signupForm.mobile,
-          email: signupForm.email,
-          address: signupForm.address,
-        });
+        // ما بنسجّل دخول تلقائي هون — الحساب انخلق بس، المستخدم بده يسجّل
+        // دخول فعلي من صفحة /login (هيك بياخد access/refresh token حقيقي)
         setShowOtpModal(false);
         setShowSuccessModal(true);
         return;
       }
 
-      await verifyOtp({ phone: otpMobile, code: otpValues.join("") });
-
-      login({
-        initials: "GU",
-        name: "Guest User",
-        type: "Personal Account",
-        mobile: otpMobile,
-        email: "",
-        address: "",
-      });
+      const tokens = await verifyLoginOtp({ phone: otpMobile, code: otpValues.join("") });
+      await loginWithTokens(tokens);
       setShowOtpModal(false);
       navigate("/");
     } catch (error) {

@@ -472,6 +472,14 @@
   background: var(--dash-teal);
 }
 
+/* رسالة حالة الجدول (تحميل/خطأ/فاضي) بدل الجدول نفسو */
+.dash-table-status {
+  margin: 24px 0;
+  color: #7a7f87;
+  font-size: 14px;
+  text-align: center;
+}
+
 /* جداول (Bill List / My Requests) */
 .dash-table-scroll {
   overflow-x: auto;
