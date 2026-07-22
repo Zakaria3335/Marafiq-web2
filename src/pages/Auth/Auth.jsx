@@ -59,7 +59,7 @@ function PhoneIcon() {
 export default function Auth() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { loginWithTokens } = useAuth();
+  const { user, loginWithTokens } = useAuth();
   const { t } = useLanguage();
   const {
     options: alWilayaOptions,
@@ -201,7 +201,7 @@ export default function Auth() {
     setOtpLoading(true);
     try {
       if (otpContext === "signup") {
-        await verifyRegistration({
+        const result = await verifyRegistration({
           code: otpValues.join(""),
           accountType: ACCOUNT_TYPE_VALUES[signupForm.accountType],
           firstName: signupForm.firstName,
@@ -227,8 +227,19 @@ export default function Auth() {
               : null,
         });
 
-        // ما بنسجّل دخول تلقائي هون — الحساب انخلق بس، المستخدم بده يسجّل
-        // دخول فعلي من صفحة /login (هيك بياخد access/refresh token حقيقي)
+        // إذا /register/verify رجع access/refresh token متل /otp/verify،
+        // بنسجّل دخول تلقائي فوراً بلا ما نضطر المستخدم يعمل login لحاله
+        if (result?.accessToken) {
+          await loginWithTokens(result);
+          setShowOtpModal(false);
+          setShowSuccessModal(true);
+          return;
+        }
+
+        // TODO: لسا ما تأكدنا إنو /register/verify فعلاً بيرجع توكن — إذا
+        // هاد الـ log طلع فاضي/بلا accessToken، لازم نسأل الـ backend كيف
+        // نسجّل دخول تلقائي بعد التسجيل بلا خطوة /login منفصلة
+        console.log("REGISTER/VERIFY RESPONSE:", result);
         setShowOtpModal(false);
         setShowSuccessModal(true);
         return;
@@ -247,9 +258,11 @@ export default function Auth() {
     }
   };
 
+  // إذا انسجّل الدخول تلقائياً بعد التسجيل (accessToken رجع مع verify)،
+  // بنوديه عالهوم مباشرة؛ وإلا (لسا ما في توكن) بنوديه يسجّل دخول يدوياً
   const handleSuccessDone = () => {
     setShowSuccessModal(false);
-    navigate("/login");
+    navigate(user ? "/" : "/login");
   };
 
   return (

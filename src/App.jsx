@@ -6,6 +6,7 @@ import Services from './pages/Services/Services'
 import Media from './pages/Media/Media'
 import Faq from './pages/Faq/Faq'
 import Dashboard from './pages/Dashboard/Dashboard'
+import Profile from './pages/Profile/Profile'
 import RequestDetails from './pages/RequestDetails/RequestDetails'
 import Inquiry from './pages/Inquiry/Inquiry'
 import WaterLeakageComplaint from './pages/Complaints/WaterLeakageComplaint'
@@ -32,6 +33,7 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/my-profile" element={<Profile />} />
           <Route path="/dashboard/requests/:id" element={<RequestDetails />} />
           <Route path="/login" element={<Auth />} />
           <Route path="/signup" element={<Auth />} />

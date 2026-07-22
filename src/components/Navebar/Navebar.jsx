@@ -117,6 +117,9 @@ function ProfileMenu({ user, onLogout, t }) {
               </p>
             </div>
           </div>
+          <NavLink to="/my-profile" className="profile-dropdown-link" onClick={() => setOpen(false)}>
+            {t('nav.myProfile')}
+          </NavLink>
           <button
             type="button"
             className="profile-dropdown-logout"
