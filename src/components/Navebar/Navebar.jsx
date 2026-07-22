@@ -145,8 +145,8 @@ export default function Navebar({ variant = 'light' }) {
   const { t, toggleLanguage } = useLanguage()
   const navigate = useNavigate()
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await logout()
     navigate('/')
   }
 

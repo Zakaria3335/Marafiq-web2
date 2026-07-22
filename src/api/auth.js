@@ -1,4 +1,4 @@
-import { apiFetch, saveTokens } from "./client";
+import { apiFetch, loadTokens, saveTokens } from "./client";
 
 // خطوة 1 من التسجيل: رقم تلفون + رقم البطاقة المدنية -> بيبعت OTP
 export function registerAccount({ phone, civilId }) {
@@ -38,4 +38,18 @@ export async function verifyLoginOtp({ phone, code }) {
   });
   saveTokens(tokens);
   return tokens;
+}
+
+// بيلغي التوكن من طرف السيرفر (refresh token) قبل ما نمسحه محلياً — لو فشل
+// الطلب (مثلاً السيرفر مش راجع) منكمل ننضّف الجلسة محلياً برضو
+export async function logoutRequest() {
+  const current = loadTokens();
+  try {
+    await apiFetch("/api/v1/auth/logout", {
+      method: "POST",
+      body: { refreshToken: current?.refreshToken },
+    });
+  } catch {
+    // نتجاهل الخطأ — الأهم إنو الجلسة تتمسح محلياً بأي الحالتين
+  }
 }

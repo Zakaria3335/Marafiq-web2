@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "./auth-context";
 import { saveTokens, saveActiveAccountId } from "../api/client";
 import { getProfile, getMyAccounts } from "../api/profile";
+import { logoutRequest } from "../api/auth";
 
 const AUTH_STORAGE_KEY = "marafiq_auth_user";
 
@@ -66,7 +67,8 @@ export function AuthProvider({ children }) {
     return nextUser;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await logoutRequest();
     saveTokens(null);
     saveActiveAccountId(null);
     setUser(null);
