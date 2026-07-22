@@ -359,6 +359,17 @@
   right: -70px;
 }
 
+/* بالعربي (RTL) موقع السهمين لازم ينعكس: السابق يمين، التالي شمال */
+html[dir="rtl"] .carousel-arrow-prev {
+  left: auto;
+  right: -70px;
+}
+
+html[dir="rtl"] .carousel-arrow-next {
+  right: auto;
+  left: -70px;
+}
+
 /* صف كروت الخدمات: سلايدر أفقي حقيقي — الكروت بتنزلق لما نضغط الأسهم */
 .services-track {
   width: 100%;
@@ -475,6 +486,16 @@ html[dir="rtl"] .service-card-overlay {
   .carousel-arrow-next {
     right: -10px;
   }
+
+  html[dir="rtl"] .carousel-arrow-prev {
+    left: auto;
+    right: -10px;
+  }
+
+  html[dir="rtl"] .carousel-arrow-next {
+    right: auto;
+    left: -10px;
+  }
 }
 
 /* موبايل: الهيدر بيصير محاذي لليسار بدل النص بالنص، والزر تحت */
@@ -510,6 +531,16 @@ html[dir="rtl"] .service-card-overlay {
 
   .carousel-arrow-next {
     right: 4px;
+  }
+
+  html[dir="rtl"] .carousel-arrow-prev {
+    left: auto;
+    right: 4px;
+  }
+
+  html[dir="rtl"] .carousel-arrow-next {
+    right: auto;
+    left: 4px;
   }
 }
 
