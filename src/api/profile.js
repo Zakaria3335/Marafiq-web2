@@ -10,3 +10,11 @@ export function getProfile() {
 export function getMyAccounts() {
   return apiFetch("/api/v1/profile/accounts");
 }
+
+// ربط حساب (Utility account) تاني بالبروفايل
+export function addAccount({ accountNo }) {
+  return apiFetch("/api/v1/profile/accounts", {
+    method: "POST",
+    body: { accountNo },
+  });
+}
