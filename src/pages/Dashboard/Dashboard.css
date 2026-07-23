@@ -484,8 +484,6 @@
 .dash-table-scroll {
   overflow-x: auto;
   padding-bottom: 10px;
-  scrollbar-width: thin;
-  scrollbar-color: #cbd2d9 #f1f3f5;
 }
 
 .dash-table-scroll::-webkit-scrollbar {
