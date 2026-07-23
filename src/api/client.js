@@ -52,14 +52,7 @@ export class ApiError extends Error {
   }
 }
 
-// بيبعت طلب للـ API الحقيقي وبيرجع "result" مباشرة (فاكّ الغلاف الموحّد
-// {result, isSuccess, isSystemError, errorMessageEn, errorMessageAr, code})
-// auth:false لازم تنحط بس على endpoints ما قبل تسجيل الدخول (زي register/login)
-export async function apiFetch(
-  path,
-  { method = "GET", body, isFormData = false, auth = true } = {},
-) {
-  const tokens = auth ? loadTokens() : null;
+async function sendRequest(path, { method, body, isFormData, auth, tokens }) {
   const headers = {};
   // FormData بتحط الـ Content-Type (مع الـ boundary) لحالها لما تنبعت — إذا حطيناها
   // يدوياً رح يخرب الـ boundary وما يقدر السيرفر يحلل الـ multipart
@@ -83,6 +76,66 @@ export async function apiFetch(
     payload = await response.json();
   } catch {
     // ما في body أو مش JSON (مثلاً 204 No Content)
+  }
+
+  return { response, payload };
+}
+
+// بيجدد الـ access token عن طريق الـ refresh token المخزّن محلياً. بنحطها هون
+// (مش بـ api/auth.js) لتفادي دورة استيراد، ولأنو apiFetch بيحتاجها مباشرة لما
+// يوصل 401. refreshPromise بتمنع أكتر من طلب تجديد بنفس الوقت (طلبات متوازية
+// كلها بتشارك نفس الـ promise بدل ما توجّه كل وحدة طلب تجديد لحالها)
+let refreshPromise = null;
+
+async function performRefresh(refreshToken) {
+  const { response, payload } = await sendRequest("/api/v1/auth/token/refresh", {
+    method: "POST",
+    body: { refreshToken },
+    isFormData: false,
+    auth: false,
+    tokens: null,
+  });
+
+  const isWrapped = payload && typeof payload === "object" && "isSuccess" in payload;
+  if (!response.ok || (isWrapped && !payload.isSuccess)) {
+    saveTokens(null);
+    throw new ApiError("Session expired", { status: 401 });
+  }
+
+  const tokens = isWrapped ? payload.result : payload;
+  saveTokens(tokens);
+  return tokens;
+}
+
+function refreshAccessToken(refreshToken) {
+  if (!refreshPromise) {
+    refreshPromise = performRefresh(refreshToken).finally(() => {
+      refreshPromise = null;
+    });
+  }
+  return refreshPromise;
+}
+
+// بيبعت طلب للـ API الحقيقي وبيرجع "result" مباشرة (فاكّ الغلاف الموحّد
+// {result, isSuccess, isSystemError, errorMessageEn, errorMessageAr, code})
+// auth:false لازم تنحط بس على endpoints ما قبل تسجيل الدخول (زي register/login)
+// لو الـ access token منتهي (401) وعنا refresh token، منجرب نجدده مرة وحدة
+// ونعيد نفس الطلب قبل ما نرمي الخطأ
+export async function apiFetch(
+  path,
+  { method = "GET", body, isFormData = false, auth = true } = {},
+) {
+  let tokens = auth ? loadTokens() : null;
+  let { response, payload } = await sendRequest(path, { method, body, isFormData, auth, tokens });
+
+  if (response.status === 401 && auth && tokens?.refreshToken) {
+    try {
+      tokens = await refreshAccessToken(tokens.refreshToken);
+      ({ response, payload } = await sendRequest(path, { method, body, isFormData, auth, tokens }));
+    } catch {
+      // فشل التجديد (refresh token نفسه منتهي/غير صالح) — منكمل تحت وبيرمي
+      // الخطأ الأصلي 401، وهاد رح يخلي الواجهة تسجّل خروج المستخدم
+    }
   }
 
   if (!response.ok) {
