@@ -5,6 +5,7 @@ import { useLanguage } from "../../context/useLanguage";
 import {
   registerAccount,
   requestLoginOtp,
+  resendLoginOtp,
   verifyLoginOtp,
   verifyRegistration,
 } from "../../api/auth";
@@ -169,8 +170,8 @@ export default function Auth() {
     }
   };
 
-  // ما في endpoint مخصص لإعادة الإرسال بالباك اند، فبنعيد استدعاء نفس
-  // الـ endpoint الأصلي يلي بعت الكود أول مرة (بيبعت كود جديد لنفس الرقم)
+  // ما في endpoint مخصص لإعادة إرسال كود التسجيل (signup)، فبنعيد استدعاء
+  // register الأصلي. أما لتسجيل الدخول فعنا endpoint مخصص (otp/resend)
   const handleResendOtp = async () => {
     setResendError("");
     setResendSuccess(false);
@@ -182,7 +183,7 @@ export default function Auth() {
           civilId: signupForm.civilId,
         });
       } else {
-        await requestLoginOtp({ phone: otpMobile });
+        await resendLoginOtp({ phone: otpMobile });
       }
       setResendSuccess(true);
     } catch (error) {

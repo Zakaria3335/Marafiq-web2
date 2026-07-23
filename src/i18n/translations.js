@@ -281,6 +281,7 @@ export const translations = {
       nextPage: "Next page",
       status: { Approved: "Approved", Pending: "Pending", Rejected: "Rejected" },
       genericError: "Something went wrong. Please try again.",
+      successTitle: "Inquiry Submitted!",
       fallbackItems: [
         {
           status: "Approved",
@@ -966,6 +967,7 @@ export const translations = {
       nextPage: "الصفحة التالية",
       status: { Approved: "مقبول", Pending: "قيد الانتظار", Rejected: "مرفوض" },
       genericError: "صار في خطأ. جرّب مرة تانية.",
+      successTitle: "تم إرسال الاستفسار!",
       fallbackItems: [
         {
           status: "Approved",

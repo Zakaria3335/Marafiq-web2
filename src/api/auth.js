@@ -28,6 +28,15 @@ export function requestLoginOtp({ phone }) {
   });
 }
 
+// إعادة إرسال كود الـ OTP لتسجيل الدخول (نفس الرقم يلي انطلب لأول مرة)
+export function resendLoginOtp({ phone }) {
+  return apiFetch("/api/v1/auth/otp/resend", {
+    method: "POST",
+    auth: false,
+    body: { phone },
+  });
+}
+
 // بيتحقق من كود دخول الـ OTP -> بيرجع access/refresh token وبيخزنهن محلياً
 // (بعدها كل طلب auth:true عم يبعتهن تلقائياً بـ Authorization header)
 export async function verifyLoginOtp({ phone, code }) {

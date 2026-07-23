@@ -217,7 +217,7 @@ export default function Home() {
             fetch("/marafiq/api/v1/home-page/about-us", { headers }),
             fetch("/marafiq/api/v1/home-page/services", { headers }),
             fetch("/marafiq/api/v1/home-page/media-center", { headers }),
-            fetch("/marafiq/api/v1/home-page/faqs", { headers }),
+            fetch("/marafiq/api/v1/home-page/homepage-faqs", { headers }),
             fetch("/marafiq/api/v1/home-page/banner", { headers }),
           ]);
 

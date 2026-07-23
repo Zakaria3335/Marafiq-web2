@@ -326,3 +326,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+.inq-success-title {
+  margin: 14px 0 0;
+  color: #33475a;
+  font-size: 19px;
+  font-weight: 700;
+}

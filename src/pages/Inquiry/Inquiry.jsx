@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getMyInquiries, submitInquiry } from "../../api/inquiries";
 import { ApiError } from "../../api/client";
 import { useLanguage } from "../../context/useLanguage";
+import "../ServiceDetail/ServiceApplicationForm.css";
 import "./Inquiry.css";
 
 const PAGE_SIZE = 4;
@@ -76,6 +77,28 @@ function AwaitingIcon() {
   );
 }
 
+function CheckBadgeIcon() {
+  return (
+    <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 2.5l2.2 1.27 2.54-.2 1.27 2.2 2.2 1.27-.2 2.54 1.27 2.2-1.27 2.2.2 2.54-2.2 1.27-1.27 2.2-2.54-.2L12 21.5l-2.2-1.27-2.54.2-1.27-2.2-2.2-1.27.2-2.54L2.72 12.4l1.27-2.2-.2-2.54 2.2-1.27 1.27-2.2 2.54.2z"
+        fill="#e6f7f5"
+        stroke="#0aa6a6"
+        strokeWidth="1.4"
+      />
+      <path d="M8.5 12.3l2.4 2.4 4.6-4.9" stroke="#0aa6a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function ChevronArrowIcon({ direction = "right" }) {
   const { language } = useLanguage();
   const flipped = (language === "ar") !== (direction === "left");
@@ -121,6 +144,8 @@ export default function Inquiry() {
   const [fileName, setFileName] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [refNumber, setRefNumber] = useState("");
 
   const [inquiries, setInquiries] = useState(() => buildFallbackInquiries(t));
   const [month, setMonth] = useState("January");
@@ -157,7 +182,9 @@ export default function Inquiry() {
     setSubmitError("");
     setSubmitLoading(true);
     try {
-      await submitInquiry({ inquiry: question.trim() });
+      const result = await submitInquiry({ inquiry: question.trim() });
+      setRefNumber(result?.name || "");
+      setSubmitted(true);
       setQuestion("");
       setFileName("");
       // منحاول نحدّث القائمة فوراً حتى يبين السؤال الجديد
@@ -324,6 +351,32 @@ export default function Inquiry() {
           )}
         </div>
       </section>
+
+      {submitted && (
+        <div className="app-success-overlay">
+          <div className="app-success-modal">
+            <button
+              type="button"
+              className="app-success-close"
+              aria-label={t("serviceForm.close")}
+              onClick={() => setSubmitted(false)}
+            >
+              <CloseIcon />
+            </button>
+            <CheckBadgeIcon />
+            <h3 className="inq-success-title">{t("inquiry.successTitle")}</h3>
+            {refNumber && (
+              <p className="app-success-ref">
+                {t("serviceForm.refNo")} {refNumber}
+              </p>
+            )}
+            <p className="app-success-text">{t("serviceForm.successText")}</p>
+            <button type="button" className="app-submit-btn app-success-done" onClick={() => setSubmitted(false)}>
+              {t("serviceForm.done")}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

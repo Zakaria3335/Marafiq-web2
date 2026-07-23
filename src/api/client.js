@@ -52,6 +52,22 @@ export class ApiError extends Error {
   }
 }
 
+// بعض أخطاء الـ backend (متلاً فشل Dataverse plugin Sandbox Host) بترجع
+// stack trace كامل بالـ C# جوا errorMessageEn/errorMessageAr — ما لازم تنعرض
+// للمستخدم متل ما هي. منسجلها بالـ console للـ debugging ومنرجع رسالة عامة بدلها
+const GENERIC_SERVER_ERROR_EN = "Something went wrong on our end. Please try again in a moment.";
+const GENERIC_SERVER_ERROR_AR = "صار في خطأ من طرفنا. جرّب مرة تانية بعد شوي.";
+
+function sanitizeServerMessage(message, fallback) {
+  if (typeof message !== "string" || !message) return fallback;
+  const looksLikeStackTrace = message.includes("\r\nat ") || message.includes("\nat ") || message.includes("Exception:");
+  if (looksLikeStackTrace || message.length > 300) {
+    console.error("API returned a raw internal error:", message);
+    return fallback;
+  }
+  return message;
+}
+
 async function sendRequest(path, { method, body, isFormData, auth, tokens }) {
   const headers = {};
   // FormData بتحط الـ Content-Type (مع الـ boundary) لحالها لما تنبعت — إذا حطيناها
@@ -139,20 +155,19 @@ export async function apiFetch(
   }
 
   if (!response.ok) {
-    const message =
-      payload?.errorMessageEn || payload?.title || `Request failed (${response.status})`;
-    throw new ApiError(message, {
+    const fallback = payload?.title || `Request failed (${response.status})`;
+    throw new ApiError(sanitizeServerMessage(payload?.errorMessageEn, fallback), {
       status: response.status,
       code: payload?.code,
-      errorMessageAr: payload?.errorMessageAr,
+      errorMessageAr: sanitizeServerMessage(payload?.errorMessageAr, GENERIC_SERVER_ERROR_AR),
     });
   }
 
   if (payload && typeof payload === "object" && "isSuccess" in payload) {
     if (!payload.isSuccess) {
-      throw new ApiError(payload.errorMessageEn || "Request failed", {
+      throw new ApiError(sanitizeServerMessage(payload.errorMessageEn, GENERIC_SERVER_ERROR_EN), {
         code: payload.code,
-        errorMessageAr: payload.errorMessageAr,
+        errorMessageAr: sanitizeServerMessage(payload.errorMessageAr, GENERIC_SERVER_ERROR_AR),
       });
     }
     return payload.result;

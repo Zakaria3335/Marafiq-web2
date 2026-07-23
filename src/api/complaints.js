@@ -24,6 +24,11 @@ export function getMyComplaints() {
   return apiFetch("/api/v1/cases/complaints");
 }
 
+// تفاصيل شكوى وحدة عن طريق رقم التذكرة — لسا ما في صفحة UI بتستخدمها
+export function getComplaintDetails(ticketNumber) {
+  return apiFetch(`/api/v1/cases/complaints/${ticketNumber}`);
+}
+
 export function submitWaterLeakageComplaint({
   accountNo,
   complaintTypeId,
