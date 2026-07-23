@@ -155,7 +155,7 @@ export async function apiFetch(
   }
 
   if (!response.ok) {
-    const fallback = payload?.title || `Request failed (${response.status})`;
+    const fallback = payload?.title || GENERIC_SERVER_ERROR_EN;
     throw new ApiError(sanitizeServerMessage(payload?.errorMessageEn, fallback), {
       status: response.status,
       code: payload?.code,
