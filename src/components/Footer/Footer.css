@@ -27,22 +27,22 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1800px;
+  max-width: 2200px;
   margin: 0 auto;
-  padding: clamp(18px, 2.2vw, 28px) clamp(20px, 4vw, 60px);
+  padding: clamp(18px, 2.2vw, 32px) clamp(20px, 4vw, 70px);
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1.2fr 1fr 1.3fr;
-  gap: clamp(24px, 4vw, 60px);
+  gap: clamp(24px, 4vw, 70px);
   align-items: start;
 }
 
 /* بالصفحات التانية (مش الهوم): نفس عرض/padding حاوية الصفحة (.container)
    مشان اللوجو وأعمدة الفوتر تحاذي محتوى الصفحة فوقها */
 .footer-inner-narrow {
-  max-width: min(1360px, 96vw);
-  padding-left: clamp(24px, 5vw, 56px);
-  padding-right: clamp(24px, 5vw, 56px);
+  max-width: min(1600px, 96vw);
+  padding-left: clamp(24px, 5vw, 64px);
+  padding-right: clamp(24px, 5vw, 64px);
 }
 
 /* الفقرة 2: عمود اللوجو + السوشال ميديا */
@@ -50,7 +50,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: clamp(12px, 1.6vw, 18px);
+  gap: clamp(12px, 1.6vw, 22px);
 }
 
 .footer-logo {
@@ -58,7 +58,7 @@
 }
 
 .footer-logo-img {
-  height: clamp(56px, 6vw, 84px);
+  height: clamp(56px, 6vw, 100px);
   width: auto;
   display: block;
 }
@@ -97,7 +97,7 @@
 /* الفقرة 3: أعمدة الروابط (القائمة + التواصل) */
 .footer-heading {
   margin: 0 0 1px;
-  font-size: clamp(12px, 1vw, 14px);
+  font-size: clamp(12px, 1vw, 16px);
   font-weight: 800;
   letter-spacing: 0.3px;
 }
@@ -115,7 +115,7 @@
   display: inline-block;
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
-  font-size: clamp(11px, 0.8vw, 13px);
+  font-size: clamp(11px, 0.8vw, 15px);
   line-height: 1.2;
   transition: color 0.15s ease;
 }
@@ -137,7 +137,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: clamp(11px, 0.8vw, 13px);
+  font-size: clamp(11px, 0.8vw, 15px);
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.4;
 }
@@ -171,8 +171,8 @@
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  padding: 2px clamp(20px, 4vw, 60px);
-  max-width: 1800px;
+  padding: 2px clamp(20px, 4vw, 70px);
+  max-width: 2200px;
   margin: 0 auto;
   box-sizing: border-box;
   background: #083a81;
@@ -180,14 +180,14 @@
 
 /* بالصفحات التانية (مش الهوم): نفس عرض/padding حاوية الصفحة (.container) */
 .footer-bottom-narrow {
-  max-width: min(1360px, 96vw);
-  padding-left: clamp(24px, 5vw, 56px);
-  padding-right: clamp(24px, 5vw, 56px);
+  max-width: min(2300px, 100vw);
+  padding-left: clamp(24px, 5vw, 64px);
+  padding-right: clamp(24px, 5vw, 64px);
 }
 
 .footer-copy {
   margin: 0;
-  font-size: clamp(10px, 0.7vw, 12px);
+  font-size: clamp(10px, 0.7vw, 14px);
   color: rgba(255, 255, 255, 0.75);
 }
 
@@ -200,7 +200,7 @@
 .footer-legal a {
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
-  font-size: clamp(10px, 0.7vw, 12px);
+  font-size: clamp(10px, 0.7vw, 14px);
   transition: color 0.15s ease;
 }
 

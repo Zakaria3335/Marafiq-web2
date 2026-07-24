@@ -71,7 +71,7 @@ body {
 /* حاوية مشتركة لكل صفحات الموقع: نفس العرض الأقصى والمحاذاة والـ padding الجانبي
    مشان كل أقسام أي صفحة (breadcrumb / hero / tabs / content) تبلش على نفس الخط العمودي */
 .container {
-  max-width: min(1360px, 96vw);
+  max-width: min(1600px, 96vw);
   margin: 0 auto;
   padding-left: clamp(24px, 5vw, 56px);
   padding-right: clamp(24px, 5vw, 56px);
@@ -82,7 +82,7 @@ body {
    من صفحات التفاصيل) — بس بنفس مبدأ التوسيط والـ padding الموحّد */
 .container-wide {
   width: 100%;
-  max-width: 1800px;
+  max-width: 2200px;
   margin: 0 auto;
   padding-left: clamp(20px, 4vw, 60px);
   padding-right: clamp(20px, 4vw, 60px);

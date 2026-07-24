@@ -33,13 +33,25 @@ export default function Footer({ wide = false }) {
             <img src="/logo.svg" alt="Marafiq" className="footer-logo-img" />
           </a>
           <div className="footer-social">
-            <a href="#" className="footer-social-btn" aria-label={t("footer.facebook")}>
+            <a
+              href="#"
+              className="footer-social-btn"
+              aria-label={t("footer.facebook")}
+            >
               <img src="/facbook.svg" alt="" />
             </a>
-            <a href="#" className="footer-social-btn" aria-label={t("footer.twitter")}>
+            <a
+              href="#"
+              className="footer-social-btn"
+              aria-label={t("footer.twitter")}
+            >
               <img src="/x.svg" alt="" />
             </a>
-            <a href="#" className="footer-social-btn" aria-label={t("footer.linkedin")}>
+            <a
+              href="#"
+              className="footer-social-btn"
+              aria-label={t("footer.linkedin")}
+            >
               <img src="/linkedin.svg" alt="" />
             </a>
           </div>
